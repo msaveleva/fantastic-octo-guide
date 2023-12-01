@@ -1,4 +1,4 @@
-package com.example.littlelemonmkiii
+package com.example.littlelemonmkiii.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -21,6 +21,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.littlelemonmkiii.R
 
 @Composable
 fun Onboarding() {
