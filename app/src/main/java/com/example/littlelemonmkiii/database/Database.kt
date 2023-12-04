@@ -21,13 +21,13 @@ data class MenuItem(
 interface MenuDao {
     // Here, MenuItem is actually the name of the table.
     @Query("SELECT * FROM MenuItem")
-    fun getAll(): LiveData<List<MenuItem>>
+    fun getAll(): List<MenuItem>
 
     @Insert
     fun saveMenuItem(menuItem: MenuItem)
 
     @Insert
-    fun insertAll(vararg menuItems: MenuItem)
+    fun insertAll(menuItems: List<MenuItem>)
 
     @Query("SELECT (SELECT COUNT(*) FROM MenuItem) == 0")
     fun isEmpty(): Boolean

@@ -3,8 +3,6 @@ package com.example.littlelemonmkiii
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.rememberNavController
 import androidx.room.Room
@@ -46,23 +44,20 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        lifecycleScope.launch {
-            lifecycleScope.launch(Dispatchers.IO) {
-                println("Preparing for saving data")
-                database.menuDao().deleteAll()
-                if (database.menuDao().isEmpty()) {
-                    saveMenuToDatabase(getMenu())
+        lifecycleScope.launch(Dispatchers.IO) {
+            database.menuDao().deleteAll()
+            if (database.menuDao().isEmpty()) {
+                saveMenuToDatabase(getMenu())
 
-                    println("Saved!")
-                    val saved = database.menuDao().getAll()
-                    println("Saved items: ")
-                    println(saved.value)
-                }
+                println("Saved!")
+                val saved = database.menuDao().getAll()
+                println("Saved items: ")
+                println(saved)
             }
         }
 
         setContent {
-            val databaseMenuItems by database.menuDao().getAll().observeAsState(emptyList())
+//            val databaseMenuItems by database.menuDao().getAll().observeAsState(emptyList())
 
             val navController = rememberNavController()
             val skipOnboarding = storageUtil.shouldSkipOnboarding()
@@ -76,6 +71,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun saveMenuToDatabase(menuItemsNetwork: List<MenuItemNetwork>) {
         val menuItemsRoom = menuItemsNetwork.map { it.toMenuItemRoom() }
-        database.menuDao().insertAll(*menuItemsRoom.toTypedArray())
+        println("Menu items room")
+        println(menuItemsRoom)
+        database.menuDao().insertAll(menuItemsRoom)
     }
 }
