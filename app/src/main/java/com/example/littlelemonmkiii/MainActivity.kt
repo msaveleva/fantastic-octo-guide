@@ -3,9 +3,14 @@ package com.example.littlelemonmkiii
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.rememberNavController
+import androidx.room.Room
+import com.example.littlelemonmkiii.database.MenuDatabase
 import com.example.littlelemonmkiii.navigations.Navigation
+import com.example.littlelemonmkiii.networking.MenuItemNetwork
 import com.example.littlelemonmkiii.networking.MenuNetwork
 import com.example.littlelemonmkiii.storage.StorageUtil
 import io.ktor.client.HttpClient
@@ -15,6 +20,7 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.get
 import io.ktor.http.ContentType
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -29,22 +35,47 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private val database by lazy {
+        Room.databaseBuilder(
+            applicationContext,
+            MenuDatabase::class.java,
+            "database")
+            .build()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         lifecycleScope.launch {
-            val menu = getMenu()
-            println(menu)
+            lifecycleScope.launch(Dispatchers.IO) {
+                println("Preparing for saving data")
+                database.menuDao().deleteAll()
+                if (database.menuDao().isEmpty()) {
+                    saveMenuToDatabase(getMenu())
+
+                    println("Saved!")
+                    val saved = database.menuDao().getAll()
+                    println("Saved items: ")
+                    println(saved.value)
+                }
+            }
         }
 
         setContent {
+            val databaseMenuItems by database.menuDao().getAll().observeAsState(emptyList())
+
             val navController = rememberNavController()
             val skipOnboarding = storageUtil.shouldSkipOnboarding()
             Navigation(navController = navController, skipOnboarding = skipOnboarding)
         }
     }
 
-    private suspend fun getMenu(): MenuNetwork {
-        return client.get(listUrl).body()
+    private suspend fun getMenu(): List<MenuItemNetwork> {
+        return client.get(listUrl).body<MenuNetwork>().menu
+    }
+
+    private fun saveMenuToDatabase(menuItemsNetwork: List<MenuItemNetwork>) {
+        val menuItemsRoom = menuItemsNetwork.map { it.toMenuItemRoom() }
+        database.menuDao().insertAll(*menuItemsRoom.toTypedArray())
     }
 }

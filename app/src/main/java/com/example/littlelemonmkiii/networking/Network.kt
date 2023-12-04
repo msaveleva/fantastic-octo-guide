@@ -1,5 +1,6 @@
 package com.example.littlelemonmkiii.networking
 
+import com.example.littlelemonmkiii.database.MenuItem
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -15,4 +16,10 @@ data class MenuItemNetwork(
     val price: String,
     val image: String,
     val category: String
-)
+) {
+    fun toMenuItemRoom() = MenuItem(
+        id,
+        title,
+        price.toDouble()
+    )
+}
