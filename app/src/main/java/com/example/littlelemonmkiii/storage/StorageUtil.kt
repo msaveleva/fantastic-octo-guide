@@ -46,11 +46,20 @@ class StorageUtil(context: Context) {
         return sharedPreferences.getString(UserInfo.Email.value, null)
     }
 
-    fun skipOnboarding(): Boolean {
+    fun shouldSkipOnboarding(): Boolean {
         val firstName = getFirstName() ?: ""
         val lastName = getLastName() ?: ""
         val email = getEmail() ?: ""
 
         return firstName.isNotEmpty() && lastName.isNotEmpty() && email.isNotEmpty()
+    }
+
+    fun clearProfileData() {
+        sharedPreferences.edit().apply {
+            remove(UserInfo.FirstName.value)
+            remove(UserInfo.LastName.value)
+            remove(UserInfo.Email.value)
+            apply()
+        }
     }
 }

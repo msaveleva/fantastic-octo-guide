@@ -90,7 +90,7 @@ fun Onboarding(navController: NavHostController) {
                     Text("Email")
                 },
                 modifier = Modifier.fillMaxWidth()
-                )
+            )
         }
 
         Spacer(modifier = Modifier.width(16.dp))

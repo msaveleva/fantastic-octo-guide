@@ -18,6 +18,6 @@ fun Navigation(
     NavHost(navController = navController, startDestination = startingRoute) {
         composable(Onboarding.route) { Onboarding(navController) }
         composable(Home.route) { Home() }
-        composable(Profile.route) { Profile() }
+        composable(Profile.route) { Profile(navController) }
     }
 }

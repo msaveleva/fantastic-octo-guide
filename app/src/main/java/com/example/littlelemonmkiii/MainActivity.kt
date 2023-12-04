@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
-            val skipOnboarding = storageUtil.skipOnboarding()
+            val skipOnboarding = storageUtil.shouldSkipOnboarding()
             Navigation(navController = navController, skipOnboarding = skipOnboarding)
         }
     }
