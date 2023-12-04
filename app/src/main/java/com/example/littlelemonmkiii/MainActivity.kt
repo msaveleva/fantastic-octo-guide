@@ -20,4 +20,4 @@ class MainActivity : AppCompatActivity() {
             Navigation(navController = navController, skipOnboarding = skipOnboarding)
         }
     }
-}˚
+}
