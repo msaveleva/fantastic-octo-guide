@@ -9,9 +9,13 @@ import com.example.littlelemonmkiii.screens.Onboarding
 import com.example.littlelemonmkiii.screens.Profile
 
 @Composable
-fun Navigation(navController: NavHostController) {
-    // TODO: update start destination depending on user data in storage.
-    NavHost(navController = navController, startDestination = Onboarding.route) {
+fun Navigation(
+    navController: NavHostController,
+    skipOnboarding: Boolean
+) {
+    val startingRoute = if (skipOnboarding) { Home.route } else { Onboarding.route }
+
+    NavHost(navController = navController, startDestination = startingRoute) {
         composable(Onboarding.route) { Onboarding() }
         composable(Home.route) { Home() }
         composable(Profile.route) { Profile() }

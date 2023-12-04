@@ -93,4 +93,6 @@ dependencies {
     implementation("androidx.compose.runtime:runtime-rxjava2")
 
     implementation("androidx.navigation:navigation-compose:2.7.5")
+
+    implementation("androidx.preference:preference-ktx:1.2.1")
 }
