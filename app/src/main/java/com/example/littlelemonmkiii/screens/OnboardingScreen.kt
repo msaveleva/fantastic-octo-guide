@@ -114,7 +114,7 @@ fun Onboarding(navController: NavHostController) {
         Spacer(modifier = Modifier.width(32.dp))
     }
 }
-˚
+
 private fun showInputValidationError(context: Context) {
     Toast
         .makeText(context, "Registration unsuccessful. Please enter all data.", Toast.LENGTH_SHORT)
