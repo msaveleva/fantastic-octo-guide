@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
+    id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 android {
@@ -95,4 +97,17 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.7.5")
 
     implementation("androidx.preference:preference-ktx:1.2.1")
+
+    // Ktor libraries.
+    implementation("io.ktor:ktor-client-android:2.1.3")
+    implementation("io.ktor:ktor-client-content-negotiation:2.1.3")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:2.1.3")
+
+    // Logging
+    implementation("io.ktor:ktor-client-logging-jvm:1.6.7")
+
+
+    // Kapt and Room
+    implementation("androidx.room:room-runtime:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1") // TODO: replace with KSP
 }
