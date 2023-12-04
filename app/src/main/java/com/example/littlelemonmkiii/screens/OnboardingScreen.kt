@@ -24,11 +24,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.littlelemonmkiii.R
 import com.example.littlelemonmkiii.storage.StorageUtil
+import com.example.littlelemonmkiii.navigations.*
 
 @Composable
-fun Onboarding() {
+fun Onboarding(navController: NavHostController) {
     val firstNameState = remember { mutableStateOf(TextFieldValue("")) }
     val lastNameState = remember { mutableStateOf(TextFieldValue("")) }
     val emailState = remember { mutableStateOf(TextFieldValue("")) }
@@ -100,6 +103,7 @@ fun Onboarding() {
             if (firstName.isNotEmpty() && lastName.isNotEmpty() && email.isNotEmpty()) {
                 // Saving onboarding data.
                 storageUtil.saveOnboardingData(firstName, lastName, email)
+                navController.navigate(Home.route)
             } else {
                 showInputValidationError(context)
             }
@@ -110,10 +114,10 @@ fun Onboarding() {
         Spacer(modifier = Modifier.width(32.dp))
     }
 }
-
+˚
 private fun showInputValidationError(context: Context) {
     Toast
-        .makeText(context, "Invalid data, please update personal information", Toast.LENGTH_SHORT)
+        .makeText(context, "Registration unsuccessful. Please enter all data.", Toast.LENGTH_SHORT)
         .show()
 }
 
@@ -121,6 +125,6 @@ private fun showInputValidationError(context: Context) {
 @Composable
 fun OnboardingPreview() {
     MaterialTheme {
-        Onboarding()
+        Onboarding(rememberNavController())
     }
 }

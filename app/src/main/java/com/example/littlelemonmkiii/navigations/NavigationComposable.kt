@@ -16,7 +16,7 @@ fun Navigation(
     val startingRoute = if (skipOnboarding) { Home.route } else { Onboarding.route }
 
     NavHost(navController = navController, startDestination = startingRoute) {
-        composable(Onboarding.route) { Onboarding() }
+        composable(Onboarding.route) { Onboarding(navController) }
         composable(Home.route) { Home() }
         composable(Profile.route) { Profile() }
     }
