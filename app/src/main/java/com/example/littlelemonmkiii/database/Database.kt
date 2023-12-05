@@ -11,8 +11,7 @@ import androidx.room.RoomDatabase
 
 @Entity
 data class MenuItem(
-    @PrimaryKey
-    val id: Int,
+    @PrimaryKey val id: Int,
     val name: String,
     val price: Double
 )
@@ -21,13 +20,9 @@ data class MenuItem(
 interface MenuDao {
     // Here, MenuItem is actually the name of the table.
     @Query("SELECT * FROM MenuItem")
-    fun getAll(): List<MenuItem>
-
+    fun getAll(): LiveData<List<MenuItem>>
     @Insert
-    fun saveMenuItem(menuItem: MenuItem)
-
-    @Insert
-    fun insertAll(menuItems: List<MenuItem>)
+    fun insertAll(vararg menuItems: MenuItem)
 
     @Query("SELECT (SELECT COUNT(*) FROM MenuItem) == 0")
     fun isEmpty(): Boolean

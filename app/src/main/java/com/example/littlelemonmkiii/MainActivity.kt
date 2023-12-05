@@ -3,6 +3,8 @@ package com.example.littlelemonmkiii
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.rememberNavController
 import androidx.room.Room
@@ -51,12 +53,13 @@ class MainActivity : AppCompatActivity() {
                 println("Saved!")
                 val saved = database.menuDao().getAll()
                 println("Saved items: ")
-                println(saved)
+                println(saved.value)
             }
         }
 
         setContent {
-//            val databaseMenuItems by database.menuDao().getAll().observeAsState(emptyList())
+            val databaseMenuItems by database.menuDao().getAll().observeAsState(emptyList())
+            println("Updated data: $databaseMenuItems")
 
             val navController = rememberNavController()
             val skipOnboarding = storageUtil.shouldSkipOnboarding()
@@ -72,6 +75,6 @@ class MainActivity : AppCompatActivity() {
         val menuItemsRoom = menuItemsNetwork.map { it.toMenuItemRoom() }
         println("Menu items room")
         println(menuItemsRoom)
-        database.menuDao().insertAll(menuItemsRoom)
+        database.menuDao().insertAll(*menuItemsRoom.toTypedArray())
     }
 }
