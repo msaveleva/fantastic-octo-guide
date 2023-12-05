@@ -8,11 +8,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -36,7 +34,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
-import com.bumptech.glide.integration.compose.GlideImage
 import com.example.littlelemonmkiii.R
 import com.example.littlelemonmkiii.database.MenuItem
 
@@ -45,7 +42,8 @@ import com.example.littlelemonmkiii.database.MenuItem
 fun Home(menuItems: List<MenuItem>) {
     val name = "Little Lemon"
     val city = "Chicago"
-    val descriptionInfo = "We are a family-owned Mediterranean restaurant, focused on traditional recipes served with a modern twist"
+    val descriptionInfo =
+        "We are a family-owned Mediterranean restaurant, focused on traditional recipes served with a modern twist"
     val backgroundColor = Color(0xFF495E57)
     var searchText by remember { mutableStateOf("") }
 
@@ -79,22 +77,19 @@ fun Home(menuItems: List<MenuItem>) {
         ) {
             Column {
                 Text(
-                    text = name,
-                    style = TextStyle(
+                    text = name, style = TextStyle(
                         fontSize = 30.sp, // Adjust as needed for H1
                         color = colorH1
                     )
                 )
                 Text(
-                    text = city,
-                    style = TextStyle(
+                    text = city, style = TextStyle(
                         fontSize = 18.sp, // Typical caption size
                         color = colorCaption
                     )
                 )
                 Text(
-                    text = descriptionInfo,
-                    style = TextStyle(
+                    text = descriptionInfo, style = TextStyle(
                         fontSize = 16.sp, // Typical body text size
                         color = colorBody
                     )
@@ -124,17 +119,14 @@ fun Home(menuItems: List<MenuItem>) {
                 .fillMaxWidth()
                 .padding(top = 20.dp)
         ) {
-            items(
-                items = menuItems,
-                itemContent = {menuItem ->
-                    MenuItem(
-                        title = menuItem.name,
-                        description = menuItem.description,
-                        price = "${menuItem.price}",
-                        imageUrl = menuItem.image
-                    )
-                }
-            )
+            items(items = menuItems, itemContent = { menuItem ->
+                MenuItem(
+                    title = menuItem.name,
+                    description = menuItem.description,
+                    price = "${menuItem.price}",
+                    imageUrl = menuItem.image
+                )
+            })
         }
     }
 }
@@ -172,7 +164,11 @@ fun MenuItem(title: String, description: String, price: String, imageUrl: String
         AsyncImage(
             model = imageUrl,
             contentDescription = "Dish photo: $title",
-            modifier = Modifier.background(Color(0xFFF4CE14)).weight(0.8f).fillMaxWidth().sizeIn(minHeight = 100.dp, maxHeight = 100.dp),
+            modifier = Modifier
+                .background(Color(0xFFF4CE14))
+                .weight(0.8f)
+                .fillMaxWidth()
+                .sizeIn(minHeight = 100.dp, maxHeight = 100.dp),
             contentScale = ContentScale.Crop
         )
     }
