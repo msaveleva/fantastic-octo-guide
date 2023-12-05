@@ -113,4 +113,5 @@ dependencies {
 
     // Glide for images
     implementation("com.github.bumptech.glide:compose:1.0.0-alpha.1")
+    implementation("io.coil-kt:coil-compose:2.5.0")
 }

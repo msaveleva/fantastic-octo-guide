@@ -8,10 +8,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -32,6 +34,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.littlelemonmkiii.R
@@ -70,7 +73,7 @@ fun Home(menuItems: List<MenuItem>) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(357.dp)
+                .height(250.dp)
                 .background(backgroundColor)
                 .padding(16.dp)
         ) {
@@ -118,6 +121,7 @@ fun Home(menuItems: List<MenuItem>) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxHeight()
+                .fillMaxWidth()
                 .padding(top = 20.dp)
         ) {
             items(
@@ -141,21 +145,35 @@ fun MenuItem(title: String, description: String, price: String, imageUrl: String
     Row(
         modifier = Modifier
             .padding(16.dp)
+            .fillMaxWidth()
     ) {
-        Column {
+        Column(modifier = Modifier.weight(2f)) {
             Text(text = title)
             Text(text = description)
             Spacer(modifier = Modifier.height(12.dp))
             Text(text = price)
         }
 
+        Spacer(modifier = Modifier.width(12.dp))
+
         // GlideImage documentation:
         // https://bumptech.github.io/glide/int/compose.html
-        GlideImage(
+//        GlideImage(
+//            model = imageUrl,
+//            contentDescription = "Dish photo: $title",
+//            contentScale = ContentScale.Fit,
+//            modifier = Modifier.size(72.dp)
+//        )
+
+        // Current version of GlideImage has a known problem: https://github.com/bumptech/glide/issues/5013
+        // The ticket is closed but the problem remains.
+        // Using Coil instead.
+        // https://coil-kt.github.io/coil/compose/
+        AsyncImage(
             model = imageUrl,
             contentDescription = "Dish photo: $title",
-            contentScale = ContentScale.Fit,
-            modifier = Modifier.size(72.dp)
+            modifier = Modifier.background(Color(0xFFF4CE14)).weight(0.8f).fillMaxWidth().sizeIn(minHeight = 100.dp, maxHeight = 100.dp),
+            contentScale = ContentScale.Crop
         )
     }
 }
@@ -176,7 +194,7 @@ fun MenuItemPreview() {
             title = "Greek Salad",
             description = "The famous greek salad of crispy lettuce, peppers, olives, our Chicago.",
             price = "10",
-            imageUrl = "https://github.com/Meta-Mobile-Developer-PC/Working-With-Data-API/blob/main/images/greekSalad.jpg?raw=true"
+            imageUrl = ""
         )
     }
 }
