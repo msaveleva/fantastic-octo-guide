@@ -45,7 +45,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         lifecycleScope.launch(Dispatchers.IO) {
-            database.menuDao().deleteAll()
             if (database.menuDao().isEmpty()) {
                 saveMenuToDatabase(getMenu())
 
