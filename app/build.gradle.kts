@@ -110,4 +110,7 @@ dependencies {
     // Kapt and Room
     implementation("androidx.room:room-runtime:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1") // TODO: replace with KSP
+
+    // Glide for images
+    implementation("com.github.bumptech.glide:compose:1.0.0-alpha.1")
 }

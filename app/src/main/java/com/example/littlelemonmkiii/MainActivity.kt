@@ -63,7 +63,11 @@ class MainActivity : AppCompatActivity() {
 
             val navController = rememberNavController()
             val skipOnboarding = storageUtil.shouldSkipOnboarding()
-            Navigation(navController = navController, skipOnboarding = skipOnboarding)
+            Navigation(
+                navController = navController,
+                skipOnboarding = skipOnboarding,
+                menuItems = databaseMenuItems
+            )
         }
     }
 

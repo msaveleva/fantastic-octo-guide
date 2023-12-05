@@ -20,6 +20,9 @@ data class MenuItemNetwork(
     fun toMenuItemRoom() = MenuItem(
         id,
         title,
-        price.toDouble()
+        description,
+        price.toDouble(),
+        image,
+        category
     )
 }
