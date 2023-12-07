@@ -18,10 +18,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
@@ -42,15 +45,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.littlelemonmkiii.R
 import com.example.littlelemonmkiii.components.SelectableButton
 import com.example.littlelemonmkiii.database.MenuItem
 import com.example.littlelemonmkiii.utils.formatPrice
+import com.example.littlelemonmkiii.navigations.*
 
 
 @Composable
-fun Home(menuItems: List<MenuItem>) {
+fun Home(
+    menuItems: List<MenuItem>,
+    navController: NavHostController
+) {
     val name = "Little Lemon"
     val city = "Chicago"
     val descriptionInfo =
@@ -112,14 +121,26 @@ fun Home(menuItems: List<MenuItem>) {
             ) {
                 Spacer(modifier = Modifier.width(32.dp))
 
-                Image(
-                    painter = painterResource(id = R.drawable.logo),
-                    contentDescription = "Logo",
-                    contentScale = ContentScale.Fit,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(72.dp)
-                )
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    Image(
+                        painter = painterResource(id = R.drawable.logo),
+                        contentDescription = "Logo",
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(72.dp)
+                    )
+                    Button(
+                        modifier = Modifier.padding(20.dp),
+                        colors = ButtonDefaults.buttonColors(colorH1),
+                        shape = RoundedCornerShape(50),
+                        onClick = { 
+                            navController.navigate(Profile.route)
+                        }
+                    ) {
+                        Icon(imageVector = Icons.Default.Person, contentDescription = "Profile")
+                    }
+                }
 
                 Spacer(modifier = Modifier.width(16.dp))
 
@@ -284,7 +305,7 @@ fun MenuItem(title: String, description: String, price: String, imageUrl: String
 @Composable
 fun HomePreview() {
     MaterialTheme {
-        Home(emptyList())
+        Home(emptyList(), rememberNavController())
     }
 }
 

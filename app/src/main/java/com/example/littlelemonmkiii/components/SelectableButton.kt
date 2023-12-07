@@ -27,7 +27,7 @@ fun SelectableButton(
             }
         },
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = if (isSelected) Color.Yellow else Color.Gray
+            backgroundColor = if (isSelected) Color(0xFFF4CE14) else Color.Gray
         ),
         modifier = modifier.padding(horizontal = 6.dp),
         shape = RoundedCornerShape(50)
