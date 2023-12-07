@@ -14,12 +14,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -32,13 +37,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.example.littlelemonmkiii.R
 import com.example.littlelemonmkiii.database.MenuItem
+import java.util.Locale
 
 
 @Composable
@@ -56,6 +62,8 @@ fun Home(menuItems: List<MenuItem>) {
 
     // Updating this value when needed.
     val filteredMenuItems = remember { mutableStateOf(menuItems) }
+    val categoriesList = menuItems.map { it.category }
+    val selectedCategory = remember { mutableStateOf("") }
 
     fun menuItemsPresented(): List<MenuItem> {
         return if (searchText.isEmpty()) {
@@ -64,6 +72,28 @@ fun Home(menuItems: List<MenuItem>) {
         } else {
             println("Filtered menu items!")
             filteredMenuItems.value
+        }
+    }
+
+    // Affects filteredMenuItems.
+    // One filtering method to combine filtering from menu and search phrase.
+    fun filterMenuItems() {
+        filteredMenuItems.value = menuItems
+
+        // Filtering search phrase.
+        if (searchText.isNotEmpty()) {
+            filteredMenuItems.value = menuItems.filter {
+                it.title.lowercase().contains(searchText.lowercase())
+            }
+
+            println("Filtered menu items: ${filteredMenuItems.value}")
+        }
+
+        // Filtering category.
+        if (selectedCategory.value.isNotEmpty()) {
+            filteredMenuItems.value = menuItems.filter {
+                it.category.equals(selectedCategory)
+            }
         }
     }
 
@@ -126,16 +156,8 @@ fun Home(menuItems: List<MenuItem>) {
                             value = searchText,
                             onValueChange = { newText ->
                                 searchText = newText
-                                filteredMenuItems.value = menuItems
 
-                                // Filtering
-                                if (searchText.isNotEmpty()) {
-                                    filteredMenuItems.value = menuItems.filter {
-                                        it.title.lowercase().contains(searchText.lowercase())
-                                    }
-
-                                    println("Filtered menu items: ${filteredMenuItems.value}")
-                                }
+                                filterMenuItems()
                             },
                             leadingIcon = {
                                 Icon(imageVector = Icons.Default.Search, contentDescription = "")
@@ -150,9 +172,33 @@ fun Home(menuItems: List<MenuItem>) {
                 }
             }
 
+            // Categories menu
             Column {
-
+                Text(
+                    text = "Order for delivery", style = TextStyle(
+                        fontSize = 20.sp
+                    ),
+                    modifier = Modifier.padding(16.dp)
+                )
+                LazyRow {
+                    items(items = categoriesList, itemContent = {
+                        Button(onClick = {
+                            filterMenuItems()
+                        }, modifier = Modifier.padding(horizontal = 6.dp),
+                            colors = ButtonDefaults.buttonColors(backgroundColor = Color.Gray),
+                            shape = RoundedCornerShape(50)
+                            ) {
+                            Text(it.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() })
+                        }
+                    })
+                }
             }
+
+            Divider(
+                color = Color.Gray,
+                thickness = 1.dp,
+                modifier = Modifier.padding(vertical = 12.dp)
+            )
         }
 
         // Menu items
