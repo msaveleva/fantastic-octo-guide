@@ -167,7 +167,6 @@ fun Home(menuItems: List<MenuItem>) {
     }
 }
 
-@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun MenuItem(title: String, description: String, price: String, imageUrl: String) {
     Row(
