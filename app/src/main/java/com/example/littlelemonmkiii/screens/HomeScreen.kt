@@ -51,83 +51,84 @@ fun Home(menuItems: List<MenuItem>) {
     val colorCaption = Color(0xFFEDEFEE)
     val colorBody = Color(0xFFEDEFEE)
 
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+    // MenuItems section
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxHeight()
+            .fillMaxWidth()
+            .padding(top = 20.dp)
     ) {
-        Spacer(modifier = Modifier.width(32.dp))
+        item {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+            ) {
+                Spacer(modifier = Modifier.width(32.dp))
 
-        Image(
-            painter = painterResource(id = R.drawable.logo),
-            contentDescription = "Logo",
-            contentScale = ContentScale.Fit,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(72.dp)
-        )
-
-        Spacer(modifier = Modifier.width(16.dp))
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(250.dp)
-                .background(backgroundColor)
-                .padding(16.dp)
-        ) {
-            Column {
-                Text(
-                    text = name, style = TextStyle(
-                        fontSize = 30.sp, // Adjust as needed for H1
-                        color = colorH1
-                    )
-                )
-                Text(
-                    text = city, style = TextStyle(
-                        fontSize = 18.sp, // Typical caption size
-                        color = colorCaption
-                    )
-                )
-                Text(
-                    text = descriptionInfo, style = TextStyle(
-                        fontSize = 16.sp, // Typical body text size
-                        color = colorBody
-                    )
-                )
-
-                Spacer(modifier = Modifier.weight(1f))
-
-                OutlinedTextField(
-                    value = searchText,
-                    onValueChange = { newText ->
-                        searchText = newText
-                    },
+                Image(
+                    painter = painterResource(id = R.drawable.logo),
+                    contentDescription = "Logo",
+                    contentScale = ContentScale.Fit,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 16.dp),
-                    label = { Text("Search") },
-                    singleLine = true
+                        .height(72.dp)
                 )
+
+                Spacer(modifier = Modifier.width(16.dp))
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(250.dp)
+                        .background(backgroundColor)
+                        .padding(16.dp)
+                ) {
+                    Column {
+                        Text(
+                            text = name, style = TextStyle(
+                                fontSize = 30.sp, // Adjust as needed for H1
+                                color = colorH1
+                            )
+                        )
+                        Text(
+                            text = city, style = TextStyle(
+                                fontSize = 18.sp, // Typical caption size
+                                color = colorCaption
+                            )
+                        )
+                        Text(
+                            text = descriptionInfo, style = TextStyle(
+                                fontSize = 16.sp, // Typical body text size
+                                color = colorBody
+                            )
+                        )
+
+                        Spacer(modifier = Modifier.weight(1f))
+
+                        OutlinedTextField(
+                            value = searchText,
+                            onValueChange = { newText ->
+                                searchText = newText
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 16.dp),
+                            label = { Text("Search") },
+                            singleLine = true
+                        )
+                    }
+                }
             }
         }
-        // Order for delivery section
 
-        // MenuItems section
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxHeight()
-                .fillMaxWidth()
-                .padding(top = 20.dp)
-        ) {
-            items(items = menuItems, itemContent = { menuItem ->
-                MenuItem(
-                    title = menuItem.name,
-                    description = menuItem.description,
-                    price = "${menuItem.price}",
-                    imageUrl = menuItem.image
-                )
-            })
-        }
+        items(items = menuItems, itemContent = { menuItem ->
+            MenuItem(
+                title = menuItem.name,
+                description = menuItem.description,
+                price = "${menuItem.price}",
+                imageUrl = menuItem.image
+            )
+        })
     }
 }
 
