@@ -50,16 +50,12 @@ class MainActivity : AppCompatActivity() {
             if (database.menuDao().isEmpty()) {
                 saveMenuToDatabase(getMenu())
 
-                println("Saved!")
                 val saved = database.menuDao().getAll()
-                println("Saved items: ")
-                println(saved.value)
             }
         }
 
         setContent {
             val databaseMenuItems by database.menuDao().getAll().observeAsState(emptyList())
-            println("Updated data: $databaseMenuItems")
 
             val navController = rememberNavController()
             val skipOnboarding = storageUtil.shouldSkipOnboarding()
@@ -77,8 +73,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun saveMenuToDatabase(menuItemsNetwork: List<MenuItemNetwork>) {
         val menuItemsRoom = menuItemsNetwork.map { it.toMenuItemRoom() }
-        println("Menu items room")
-        println(menuItemsRoom)
         database.menuDao().insertAll(*menuItemsRoom.toTypedArray())
     }
 }

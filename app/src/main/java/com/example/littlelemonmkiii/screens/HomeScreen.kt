@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
@@ -32,10 +33,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -82,22 +85,15 @@ fun Home(menuItems: List<MenuItem>) {
             filteredMenuItems.value = menuItems.filter {
                 it.title.lowercase().contains(searchText.lowercase())
             }
-
-            println("Filtered menu items: ${filteredMenuItems.value}")
         }
 
         // Filtering category.
         if (selectedCategory.value.isNotEmpty()) {
             // Filtering through filtered to consider the results of search text filtering done before.
             filteredMenuItems.value = filteredMenuItems.value.filter {
-                println("Selected category: ${selectedCategory.value}")
-                println("Current item's category: ${it.category}")
                 it.category == selectedCategory.value
             }
         }
-
-        println("Category selected: ${selectedCategory.value}")
-        println("Filtered items: ${filteredMenuItems.value}")
     }
 
     // MenuItems section
@@ -237,10 +233,22 @@ fun MenuItem(title: String, description: String, price: String, imageUrl: String
             .fillMaxWidth()
     ) {
         Column(modifier = Modifier.weight(2f)) {
-            Text(text = title)
+            Text(
+                text = title,
+                style = TextStyle(
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
+            )
             Text(text = description)
             Spacer(modifier = Modifier.height(12.dp))
-            Text(text = price)
+            Text(
+                text = price,
+                style = TextStyle(
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Medium
+                )
+            )
         }
 
         Spacer(modifier = Modifier.width(12.dp))
@@ -262,10 +270,10 @@ fun MenuItem(title: String, description: String, price: String, imageUrl: String
             model = imageUrl,
             contentDescription = "Dish photo: $title",
             modifier = Modifier
-                .background(Color(0xFFF4CE14))
                 .weight(0.8f)
                 .fillMaxWidth()
-                .sizeIn(minHeight = 100.dp, maxHeight = 100.dp),
+                .sizeIn(minHeight = 100.dp, maxHeight = 100.dp)
+                .clip(RoundedCornerShape(15)),
             contentScale = ContentScale.Crop
         )
     }
