@@ -88,7 +88,8 @@ fun Home(menuItems: List<MenuItem>) {
 
         // Filtering category.
         if (selectedCategory.value.isNotEmpty()) {
-            filteredMenuItems.value = menuItems.filter {
+            // Filtering through filtered to consider the results of search text filtering done before.
+            filteredMenuItems.value = filteredMenuItems.value.filter {
                 println("Selected category: ${selectedCategory.value}")
                 println("Current item's category: ${it.category}")
                 it.category == selectedCategory.value
