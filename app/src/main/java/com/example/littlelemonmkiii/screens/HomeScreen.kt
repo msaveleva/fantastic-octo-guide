@@ -23,6 +23,7 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
@@ -64,14 +65,14 @@ fun Home(
     val city = "Chicago"
     val descriptionInfo =
         "We are a family-owned Mediterranean restaurant, focused on traditional recipes served with a modern twist"
-    val backgroundColor = Color(0xFF495E57)
-    var searchText by remember { mutableStateOf("") }
 
+    val heroBackgroundColor = Color(0xFF495E57)
     val colorH1 = Color(0xFFF4CE14)
     val colorCaption = Color(0xFFEDEFEE)
     val colorBody = Color(0xFFEDEFEE)
 
-    // Updating this value when needed.
+    var searchText by remember { mutableStateOf("") }
+
     val filteredMenuItems = remember { mutableStateOf(menuItems) }
     val categoriesList = menuItems.map { it.category }.toSet()
     val selectedCategory = remember { mutableStateOf("") }
@@ -85,7 +86,7 @@ fun Home(
         }
     }
 
-    // Affects filteredMenuItems.
+    // Affects filteredMenuItems, which is not recommended in most cases.
     // One filtering method to combine filtering from menu and search phrase.
     fun filterMenuItems() {
         filteredMenuItems.value = menuItems
@@ -148,30 +149,32 @@ fun Home(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(250.dp)
-                        .background(backgroundColor)
+                        .background(heroBackgroundColor)
                         .padding(16.dp)
                 ) {
                     Column {
                         Text(
                             text = name, style = TextStyle(
                                 fontSize = 30.sp, // Adjust as needed for H1
-                                color = colorH1
-                            )
+                                color = colorH1,
+                                fontWeight = FontWeight.SemiBold
+                            ),
+                            modifier = Modifier.padding(vertical = 4.dp)
                         )
                         Text(
                             text = city, style = TextStyle(
                                 fontSize = 18.sp, // Typical caption size
                                 color = colorCaption
-                            )
+                            ),
+                            modifier = Modifier.padding(vertical = 4.dp)
                         )
                         Text(
                             text = descriptionInfo, style = TextStyle(
                                 fontSize = 16.sp, // Typical body text size
                                 color = colorBody
-                            )
+                            ),
+                            modifier = Modifier.padding(vertical = 4.dp)
                         )
-
-                        Spacer(modifier = Modifier.weight(1f))
 
                         OutlinedTextField(
                             value = searchText,
@@ -184,8 +187,10 @@ fun Home(
                                 Icon(imageVector = Icons.Default.Search, contentDescription = "")
                             },
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(bottom = 16.dp),
+                                .fillMaxWidth(),
+                            colors = TextFieldDefaults.outlinedTextFieldColors(
+                                backgroundColor = colorCaption
+                            ),
                             label = { Text("Enter search phrase") },
                             singleLine = true
                         )
@@ -197,7 +202,8 @@ fun Home(
             Column {
                 Text(
                     text = "Order for delivery", style = TextStyle(
-                        fontSize = 20.sp
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.SemiBold
                     ),
                     modifier = Modifier.padding(16.dp)
                 )
