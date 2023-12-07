@@ -18,6 +18,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -51,6 +54,9 @@ fun Home(menuItems: List<MenuItem>) {
     val colorCaption = Color(0xFFEDEFEE)
     val colorBody = Color(0xFFEDEFEE)
 
+    // Updating this value when needed.
+    val filteredMenuItems = remember { mutableStateOf(menuItems) }
+
     // MenuItems section
     LazyColumn(
         modifier = Modifier
@@ -58,6 +64,7 @@ fun Home(menuItems: List<MenuItem>) {
             .fillMaxWidth()
             .padding(top = 20.dp)
     ) {
+        // Header item
         item {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -109,19 +116,36 @@ fun Home(menuItems: List<MenuItem>) {
                             value = searchText,
                             onValueChange = { newText ->
                                 searchText = newText
+
+                                // Filtering
+                                if (searchText.isEmpty()) {
+                                    filteredMenuItems.value = menuItems
+                                } else {
+                                    filteredMenuItems.value = menuItems.filter {
+                                        it.name.contains(searchText)
+                                    }
+                                }
                             },
+                            leadingIcon = {
+                                Icon(imageVector = Icons.Default.Search, contentDescription = "")
+                                  },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(bottom = 16.dp),
-                            label = { Text("Search") },
+                            label = { Text("Enter search phrase") },
                             singleLine = true
                         )
                     }
                 }
             }
+
+            Column {
+
+            }
         }
 
-        items(items = menuItems, itemContent = { menuItem ->
+        // Menu items
+        items(items = filteredMenuItems.value, itemContent = { menuItem ->
             MenuItem(
                 title = menuItem.name,
                 description = menuItem.description,
