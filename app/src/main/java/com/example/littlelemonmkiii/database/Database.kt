@@ -12,7 +12,7 @@ import androidx.room.RoomDatabase
 @Entity
 data class MenuItem(
     @PrimaryKey val id: Int,
-    val name: String,
+    val title: String,
     val description: String,
     val price: Double,
     val image: String,

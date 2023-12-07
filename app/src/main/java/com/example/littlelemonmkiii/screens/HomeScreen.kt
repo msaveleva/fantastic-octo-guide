@@ -57,6 +57,16 @@ fun Home(menuItems: List<MenuItem>) {
     // Updating this value when needed.
     val filteredMenuItems = remember { mutableStateOf(menuItems) }
 
+    fun menuItemsPresented(): List<MenuItem> {
+        return if (searchText.isEmpty()) {
+            println("Menu items!")
+            menuItems
+        } else {
+            println("Filtered menu items!")
+            filteredMenuItems.value
+        }
+    }
+
     // MenuItems section
     LazyColumn(
         modifier = Modifier
@@ -116,19 +126,20 @@ fun Home(menuItems: List<MenuItem>) {
                             value = searchText,
                             onValueChange = { newText ->
                                 searchText = newText
+                                filteredMenuItems.value = menuItems
 
                                 // Filtering
-                                if (searchText.isEmpty()) {
-                                    filteredMenuItems.value = menuItems
-                                } else {
+                                if (searchText.isNotEmpty()) {
                                     filteredMenuItems.value = menuItems.filter {
-                                        it.name.contains(searchText)
+                                        it.title.lowercase().contains(searchText.lowercase())
                                     }
+
+                                    println("Filtered menu items: ${filteredMenuItems.value}")
                                 }
                             },
                             leadingIcon = {
                                 Icon(imageVector = Icons.Default.Search, contentDescription = "")
-                                  },
+                            },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(bottom = 16.dp),
@@ -145,9 +156,9 @@ fun Home(menuItems: List<MenuItem>) {
         }
 
         // Menu items
-        items(items = filteredMenuItems.value, itemContent = { menuItem ->
+        items(items = menuItemsPresented(), itemContent = { menuItem ->
             MenuItem(
-                title = menuItem.name,
+                title = menuItem.title,
                 description = menuItem.description,
                 price = "${menuItem.price}",
                 imageUrl = menuItem.image

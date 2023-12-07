@@ -18,11 +18,11 @@ data class MenuItemNetwork(
     val category: String
 ) {
     fun toMenuItemRoom() = MenuItem(
-        id,
-        title,
-        description,
-        price.toDouble(),
-        image,
-        category
+        id = id,
+        title = title,
+        description = description,
+        price = price.toDouble(),
+        image = image,
+        category = category
     )
 }
