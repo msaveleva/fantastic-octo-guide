@@ -1,6 +1,5 @@
 package com.example.littlelemonmkiii.screens
 
-import android.widget.ScrollView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
@@ -16,13 +15,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
@@ -42,7 +36,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -50,7 +43,6 @@ import coil.compose.AsyncImage
 import com.example.littlelemonmkiii.R
 import com.example.littlelemonmkiii.components.SelectableButton
 import com.example.littlelemonmkiii.database.MenuItem
-import java.util.Locale
 
 
 @Composable
@@ -97,9 +89,14 @@ fun Home(menuItems: List<MenuItem>) {
         // Filtering category.
         if (selectedCategory.value.isNotEmpty()) {
             filteredMenuItems.value = menuItems.filter {
-                it.category.equals(selectedCategory)
+                println("Selected category: ${selectedCategory.value}")
+                println("Current item's category: ${it.category}")
+                it.category == selectedCategory.value
             }
         }
+
+        println("Category selected: ${selectedCategory.value}")
+        println("Filtered items: ${filteredMenuItems.value}")
     }
 
     // MenuItems section
@@ -185,20 +182,7 @@ fun Home(menuItems: List<MenuItem>) {
                     ),
                     modifier = Modifier.padding(16.dp)
                 )
-//                LazyRow {
-//                    items(items = categoriesList, itemContent = {
-//                        SelectableButton(
-//                            text = it.capitalize(),
-//                            isSelected = isSelected,
-//                            onSelected = {
-//                                selectedCategory.value = it
-//                                filterMenuItems()
-//                            },
-//                            onUnselected = {
-//                                filterMenuItems()
-//                            })
-//                    })
-//                }
+
                 // State to track the currently selected index
                 var selectedIndex by remember { mutableIntStateOf(-1) } // -1 for none selected
 
