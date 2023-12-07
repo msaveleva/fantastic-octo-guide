@@ -1,7 +1,9 @@
 package com.example.littlelemonmkiii.screens
 
+import android.widget.ScrollView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,6 +18,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -28,6 +32,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -43,6 +48,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.littlelemonmkiii.R
+import com.example.littlelemonmkiii.components.SelectableButton
 import com.example.littlelemonmkiii.database.MenuItem
 import java.util.Locale
 
@@ -62,15 +68,14 @@ fun Home(menuItems: List<MenuItem>) {
 
     // Updating this value when needed.
     val filteredMenuItems = remember { mutableStateOf(menuItems) }
-    val categoriesList = menuItems.map { it.category }
+    val categoriesList = menuItems.map { it.category }.toSet()
     val selectedCategory = remember { mutableStateOf("") }
 
     fun menuItemsPresented(): List<MenuItem> {
-        return if (searchText.isEmpty()) {
-            println("Menu items!")
+        return if (searchText.isEmpty() &&
+            selectedCategory.value.isEmpty()) {
             menuItems
         } else {
-            println("Filtered menu items!")
             filteredMenuItems.value
         }
     }
@@ -180,17 +185,43 @@ fun Home(menuItems: List<MenuItem>) {
                     ),
                     modifier = Modifier.padding(16.dp)
                 )
-                LazyRow {
-                    items(items = categoriesList, itemContent = {
-                        Button(onClick = {
-                            filterMenuItems()
-                        }, modifier = Modifier.padding(horizontal = 6.dp),
-                            colors = ButtonDefaults.buttonColors(backgroundColor = Color.Gray),
-                            shape = RoundedCornerShape(50)
-                            ) {
-                            Text(it.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() })
-                        }
-                    })
+//                LazyRow {
+//                    items(items = categoriesList, itemContent = {
+//                        SelectableButton(
+//                            text = it.capitalize(),
+//                            isSelected = isSelected,
+//                            onSelected = {
+//                                selectedCategory.value = it
+//                                filterMenuItems()
+//                            },
+//                            onUnselected = {
+//                                filterMenuItems()
+//                            })
+//                    })
+//                }
+                // State to track the currently selected index
+                var selectedIndex by remember { mutableIntStateOf(-1) } // -1 for none selected
+
+                Row(
+                    modifier = Modifier
+                        .horizontalScroll(rememberScrollState())
+                ) {
+                    for ((index, label) in categoriesList.withIndex()) {
+                        SelectableButton(
+                            text = label,
+                            isSelected = selectedIndex == index,
+                            onSelected = {
+                                selectedIndex = index
+                                selectedCategory.value = label
+                                filterMenuItems()
+                            },
+                            onUnselected = {
+                                selectedIndex = -1
+                                selectedCategory.value = ""
+                                filterMenuItems()
+                            }
+                        )
+                    }
                 }
             }
 
