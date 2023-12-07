@@ -46,6 +46,7 @@ import coil.compose.AsyncImage
 import com.example.littlelemonmkiii.R
 import com.example.littlelemonmkiii.components.SelectableButton
 import com.example.littlelemonmkiii.database.MenuItem
+import com.example.littlelemonmkiii.utils.formatPrice
 
 
 @Composable
@@ -218,7 +219,7 @@ fun Home(menuItems: List<MenuItem>) {
             MenuItem(
                 title = menuItem.title,
                 description = menuItem.description,
-                price = "${menuItem.price}",
+                price = formatPrice(menuItem.price, "€"),
                 imageUrl = menuItem.image
             )
         })
@@ -245,7 +246,7 @@ fun MenuItem(title: String, description: String, price: String, imageUrl: String
             Text(
                 text = price,
                 style = TextStyle(
-                    fontSize = 18.sp,
+                    fontSize = 16.sp,
                     fontWeight = FontWeight.Medium
                 )
             )
