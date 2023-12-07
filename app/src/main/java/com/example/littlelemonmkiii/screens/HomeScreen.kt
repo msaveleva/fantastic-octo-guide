@@ -95,19 +95,19 @@ fun Home(menuItems: List<MenuItem>) {
                     )
                 )
 
-//                Spacer(modifier = Modifier.fillMaxHeight())
+                Spacer(modifier = Modifier.weight(1f))
 
                 OutlinedTextField(
                     value = searchText,
                     onValueChange = { newText ->
                         searchText = newText
                     },
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 16.dp),
                     label = { Text("Search") },
                     singleLine = true
                 )
-
-                Spacer(modifier = Modifier.width(16.dp))
             }
         }
         // Order for delivery section
