@@ -35,7 +35,7 @@ This project is built using a range of modern technologies and libraries:
 ## Wireframe
 
 The wireframe could be found in `design/` folder of the project. Wireframe has been built in Figma.
-![Wireframe for the main screen](https://raw.githubusercontent.com/msaveleva/fantastic-octo-guide/main/design/Little%20Lemon%20Android%20App%20Wireframe.png)
+![Wireframe for the main screen](https://github.com/msaveleva/fantastic-octo-guide/blob/main/design/Little%20Lemon%20Android%20App%20Wireframe.png?raw=true)
 
 ## Further improvements
 
