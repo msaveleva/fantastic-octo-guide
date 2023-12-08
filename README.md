@@ -7,19 +7,21 @@ Kotlin, Jetpack Compose, Ktor, Room.
 ## Features
 
 1. **Data Fetching and Storage**:
+
    - Fetches and stores a list of menu items in a Room database for persistent data management.
 
 2. **Onboarding and Registration**:
+
    - Features an onboarding screen that guides users through the registration process. User data is stored in SharedPreferences.
 
 3. **Home Screen**:
+
    - Displays comprehensive information about the service.
    - Provides a dynamic list of menu items, allowing users to filter the list by search phrases, categories, or both.
 
 4. **Profile Management**:
    - Offers a profile screen where users can view own information provided during onboarding.
    - Includes a logout function.
-
 
 ## Building blocks
 
@@ -33,6 +35,7 @@ This project is built using a range of modern technologies and libraries:
 ## Wireframe
 
 The wireframe could be found in `design/` folder of the project. Wireframe has been built in Figma.
+![Wireframe for the main screen](https://raw.githubusercontent.com/msaveleva/fantastic-octo-guide/main/design/Little%20Lemon%20Android%20App%20Wireframe.png)
 
 ## Further improvements
 
@@ -52,4 +55,4 @@ While the project currently meets the course's requirements, there are several e
 
 ## Special thanks
 
-Working soundtrack for tasks from [week 1](https://open.spotify.com/album/0e1WaSNDZnoPixaxDNdWo4?si=vbZTVjDYTgahiJStV1zMTA) and [week 2 & 3](https://open.spotify.com/album/0DoVnWjNFYoUfq7qe36jxh?si=nH4dXTqzTvqFp6kquhX76g).
+Working soundtrack for tasks from [week 1](https://open.spotify.com/album/0e1WaSNDZnoPixaxDNdWo4?si=vbZTVjDYTgahiJStV1zMTA) and [weeks 2 & 3](https://open.spotify.com/album/0DoVnWjNFYoUfq7qe36jxh?si=nH4dXTqzTvqFp6kquhX76g).
