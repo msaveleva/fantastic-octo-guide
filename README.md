@@ -30,6 +30,10 @@ This project is built using a range of modern technologies and libraries:
 - [Room](https://developer.android.com/training/data-storage/room) - An abstraction layer over SQLite used for database access while utilizing the full power of SQLite.
 - [Coil](https://coil-kt.github.io/coil/) - An image loading library for Android backed by Kotlin Coroutines. It simplifies fetching, decoding, and displaying images in the application.
 
+## Wireframe
+
+The wireframe could be found in `design/` folder of the project. Wireframe has been built in Figma.
+
 ## Further improvements
 
 While the project currently meets the course's requirements, there are several enhancements that could be considered for future development. These enhancements, though not essential for the project's current scope, would be valuable if the project were to be expanded.
